@@ -1,8 +1,9 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'cropPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,10 +13,40 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  XFile? image;
+  PickedFile? image;
+
   _imagePick(String type) async {
     XFile? image = await ImagePicker().pickImage(
         source: type == "Gallery" ? ImageSource.gallery : ImageSource.camera,
+    );
+
+    await Navigator.push(
+        context,
+        PageRouteBuilder(
+            transitionDuration:
+            Duration(milliseconds: 250),
+            reverseTransitionDuration:
+            Duration(milliseconds: 150),
+            transitionsBuilder:
+                (BuildContext context,
+                Animation<double>
+                animation,
+                Animation<double>
+                secAnimation,
+                Widget child) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+            pageBuilder: (BuildContext
+            context,
+                Animation<double> animation,
+                Animation<double> secAnimation) {
+              // return cropPage(realImage: image!,);
+              return CropPage(realImage: File(image!.path),);
+            }
+        )
     );
     print(image);
     // setState(() {
@@ -27,7 +58,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     // File _image;
-    print(size);
+    print("Main size $size");
 
     return Scaffold(
       // appBar: AppBar(
