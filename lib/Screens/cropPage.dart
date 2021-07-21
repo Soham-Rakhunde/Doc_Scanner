@@ -4,7 +4,6 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:chmod_hackathon/services/cropClass.dart';
 
 class CropPage extends StatefulWidget {
@@ -22,7 +21,6 @@ class _CropPageState extends State<CropPage> {
 
   Future<ImageInfo> getImageInfo(BuildContext context) async {
     FileImage fileImage = FileImage(widget.realImage);
-    print("${fileImage.file.absolute} asada");
     // print(File(widget.realImage.path));
     ImageStream stream = fileImage.resolve(createLocalImageConfiguration(context));
     // assetImage.resolve(createLocalImageConfiguration(context));
@@ -70,7 +68,7 @@ class _CropPageState extends State<CropPage> {
           ),
         ],
         title: Text(
-          "Crop Document",
+          "Crop with Skew & Tilt",
           style: new TextStyle(color: Colors.white),
         ),
         centerTitle: true,

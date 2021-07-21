@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:chmod_hackathon/Screens/editorPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'cropPage.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -20,38 +22,41 @@ class _HomePageState extends State<HomePage> {
         source: type == "Gallery" ? ImageSource.gallery : ImageSource.camera,
     );
 
-    await Navigator.push(
-        context,
-        PageRouteBuilder(
-            transitionDuration:
-            Duration(milliseconds: 250),
-            reverseTransitionDuration:
-            Duration(milliseconds: 150),
-            transitionsBuilder:
-                (BuildContext context,
-                Animation<double>
-                animation,
-                Animation<double>
-                secAnimation,
-                Widget child) {
-              return FadeTransition(
-                opacity: animation,
-                child: child,
-              );
-            },
-            pageBuilder: (BuildContext
-            context,
-                Animation<double> animation,
-                Animation<double> secAnimation) {
-              // return cropPage(realImage: image!,);
-              return CropPage(realImage: File(image!.path),);
-            }
-        )
-    );
-    print(image);
-    // setState(() {
-    //   _image = image;
-    // });
+    if(image != null) {
+      await Navigator.push(
+          context,
+          PageRouteBuilder(
+              transitionDuration:
+              Duration(milliseconds: 250),
+              reverseTransitionDuration:
+              Duration(milliseconds: 150),
+              transitionsBuilder:
+                  (BuildContext context,
+                  Animation<double>
+                  animation,
+                  Animation<double>
+                  secAnimation,
+                  Widget child) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+              pageBuilder: (BuildContext
+              context,
+                  Animation<double> animation,
+                  Animation<double> secAnimation) {
+                // return cropPage(realImage: image!,);
+                // return CropPage(realImage: File(image!.path),);
+                return EditorPage(realImage: File(image!.path));
+              }
+          )
+      );
+      print(image);
+      // setState(() {
+      //   _image = image;
+      // });
+    }
   }
 
   @override
